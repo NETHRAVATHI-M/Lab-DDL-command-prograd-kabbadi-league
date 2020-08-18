@@ -108,17 +108,65 @@ CONSTRAINT Event_FK1 FOREIGN KEY(raider_id) REFERENCES Player(ID)
 );
 
 
-DROP TABLE EXTRACITY;
-
 Create table Extra_event
 (
-id INT PRIMARY KEY,
-event_id INT,
-extra_type_id INT,
-points INT,
-scoring_team_id INT,
-
-CONSTRAINT Extra_event_FK FOREIGN KEY(event_id)REFERENCES Event(id),
-CONSTRAINT Extra_event_FK1 FOREIGN KEY(extra_type_id)REFERENCES Extra_type(id),
-CONSTRAINT Extra_event_FK3 FOREIGN KEY(scoring_team_id)REFERENCES Team(id)
+ID INT,
+event_id INT NOT NULL,
+extra_type_id INT NOT NULL,
+points INT NOT NULL,
+scoring_team_id INT NOT NULL,
+CONSTRAINT Extra_event_PK PRIMARY KEY(ID),
+CONSTRAINT Extra_event_FK FOREIGN KEY(event_id)REFERENCES Event(ID1),
+CONSTRAINT Extra_event_FK1 FOREIGN KEY(extra_type_id)REFERENCES Extra_type(ID),
+CONSTRAINT Extra_event_FK2 FOREIGN KEY(scoring_team_id)REFERENCES Team(ID)
 );
+
+Create table Outcome
+(
+id INT,
+status VARCHAR(100) NOT NULL,
+winner_team_id INT NULL,
+score INT NULL,
+player_of_match INT NULL,
+CONSTRAINT Outcome_PK PRIMARY KEY(id),
+CONSTRAINT Outcome_FK FOREIGN KEY(winner_team_id)REFERENCES Team(id),
+CONSTRAINT Outcome_FK1 FOREIGN KEY(player_of_match )REFERENCES Player(id)
+);
+
+Create table Game
+(
+id INT,
+game_date DATE NOT NULL,
+team_id_1 INT NOT NULL,
+team_id_2 INT NOT NULL,
+venue_id INT NOT NULL,
+outcome_id INT NOT NULL,
+referee_id_1 INT NOT NULL,
+referee_id_2 INT NOT NULL,
+first_innings_id INT NOT NULL,
+second_innings_id INT NOT NULL,
+CONSTRAINT Game_PK PRIMARY KEY(id),
+CONSTRAINT Game_FK FOREIGN KEY(team_id_1)REFERENCES TEAM(id),
+CONSTRAINT Game_FK1 FOREIGN KEY(team_id_2)REFERENCES TEAM(id),
+CONSTRAINT Game_FK2 FOREIGN KEY(venue_id)REFERENCES VENUE(id),
+CONSTRAINT Game_FK3 FOREIGN KEY(outcome_id)REFERENCES Outcome(id),
+CONSTRAINT Game_FK4 FOREIGN KEY(referee_id_1) REFERENCES Referee(ID),
+CONSTRAINT Game_FK5 FOREIGN KEY(referee_id_2) REFERENCES Referee(ID),
+CONSTRAINT Game_FK6 FOREIGN KEY(first_innings_id) REFERENCES Innings(Id),
+CONSTRAINT Game_FK7 FOREIGN KEY(second_innings_id) REFERENCES Innings(Id)
+);DROP TABLE GAME;
+
+
+CREATE TABLE REFEREE(ID INT,
+NAME VARCHAR(50),
+CONSTRAINT  REFEREE_PK PRIMARY KEY(ID));
+DROP TABLE VENUE;
+DROP TABLE REFEREE;
+DROP TABLE OUTCOME;
+DROP TABLE EXTRA_EVENT;
+DROP TABLE EXTRA_TYPE;
+DROP TABLE EVENT;
+DROP TABLE PLAYER;
+DROP TABLE SKILL;
+DROP TABLE INNINGS;
+DROP TABLE GAME;
